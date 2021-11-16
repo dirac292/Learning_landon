@@ -1,8 +1,33 @@
-import React from 'react';
-import amenitiesData from './data/amenities.json'
-import servicesData from './data/services.json'
+import React,{ useState, useEffect } from 'react';
+//import amenitiesData from './data/amenities.json'
+//import servicesData from './data/services.json'
 
 const Hotelinfo = () =>{
+  const [amenitiesData, setAmenitiesData] = useState([]);
+  const [servicesData, setServicesData] = useState([]);
+  
+  const loadAmenitiesData = async() => {
+      // Query the API Gateway
+    const resp = await fetch ('https://mhwgh5f88d.execute-api.us-east-1.amazonaws.com/ProductionLinkedin/amenities');
+    let jsonData = await resp.json();
+
+    //Assign Response data to our state variable
+    setAmenitiesData(jsonData);
+  }
+  const loadServicesData = async() => {
+    // Query the API Gateway
+  const resp = await fetch ('https://mhwgh5f88d.execute-api.us-east-1.amazonaws.com/ProductionLinkedin/services');
+  let jsonData = await resp.json();
+
+  //Assign Response data to our state variable
+  setServicesData(jsonData);
+}
+  useEffect(()=> {
+    //Load the menu links data from the API gateway
+    loadAmenitiesData();
+    loadServicesData();
+    //Other side effects
+  },[]);
     return(
         
           <div className="scene" id="hotelinfo">
